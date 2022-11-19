@@ -1,14 +1,17 @@
 import { Component, useState } from "react";
 import axios from "axios";
-import Layout from "../Components/Layout";
+import { withIronSessionSsr } from "iron-session/next";
+import { loginHandler, sessionOptions } from "../lib/session";
+export const getServerSideProps = withIronSessionSsr(loginHandler, sessionOptions);
 
 function login(email: string, password: string) {
   axios.post("/api/login", {email, password}).then((res) => {
-    console.log(res);
+    window.location.href = "/";
   }).catch((err) => {
     console.log(err);
   });
 }
+
 
 export default function Login() {
   const [email, setEmail] = useState("");

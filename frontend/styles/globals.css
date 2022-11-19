@@ -3,29 +3,36 @@
   margin: 0;
   box-sizing: border-box;
 }
-
+h1{
+  margin-bottom: 20px;
+}
 .form-container{
     background: white;
-    width: 300px;
+    width: 400px;
     height: 450px;
-    position: relative;
+    position: center;
     text-align: center;
-    padding: 20px 0;
+    padding: 20px 100x;
     margin: auto;
-    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 5%;
+    box-shadow: 0 0 20px 0px #ff523b;
     overflow: hidden;
 }
+.form-container label{
+  margin-right: 5px;
+}
 .form-container input{
-  width: 100%;
+  width: 90%;
   height: 30px;
   margin: 10px 0;
   padding: 0 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #ff523b;
+  border-radius: 5%;
 }
 .btn{
   display: inline-block;
   background: #ff523b;
-  color: white;
+  color: black;
   padding: 8px 30px;
   margin: 30px 0;
   border-radius: 30px;
