@@ -16,16 +16,15 @@ export default function Layout(props: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header>
-        <div className="container">
-          <div className="navbar">
-            <div className="logo">
-
-              <a href=""><img src={logo.src} alt="" width="50px"/></a>
+        <div className= {styles.container}>
+          <div className={styles.navbar}>
+            <div className={styles.logo}>
+              <a className={styles.a} href=""><img src={logo.src} alt="" width="50px"/></a>
             </div>
-            <nav>
-              <ul id="MenuItems">
-                <li><a href="/login">Login</a></li>
-                <li><a href="/register">Register</a></li>
+            <nav className={styles.nav}>
+              <ul id= {styles.MenuItems}>
+                <li><a className={styles.a} href="/login">Login</a></li>
+                <li><a className={styles.a} href="/register">Register</a></li>
                 {/* <li><a href="/about.html"></a></li>
                 <li><a href="/contact.html">Contact</a></li>
                 <li><a href="/account.html">Account</a></li> */}
