@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
+import { withIronSessionApiRoute } from "iron-session/next";
+import { sessionOptions } from "../../lib/session";
+
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -15,11 +18,11 @@ enum Error {
   InvalidRequest = "Invalid request",
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export default withIronSessionApiRoute(loginRoute, sessionOptions);
+
+async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   const { email, password } = req.body;
+
   if (req.method == "POST" && email && password) {
     const userExists = await prisma.user.findFirst({
       where: { email: email as string },
@@ -28,7 +31,12 @@ export default async function handler(
     if (userExists) {
       const correctPassword = bcrypt.compareSync(password, userExists.password);
       if (correctPassword) {
-        return res.status(200).json({ error: Error.None });
+        req.session.user = {
+          id: userExists.id,
+        };
+        await req.session.save();
+
+        return res.redirect("/");
       } else {
         return res.status(400).json({ error: Error.InvalidPassword });
       }

@@ -1,5 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
+import { withIronSessionSsr } from "iron-session/next";
+import { loginHandler, sessionOptions } from "../lib/session";
+export const getServerSideProps = withIronSessionSsr(loginHandler, sessionOptions);
 
 function register(username: string, password: string, email: string, name: string) {
     axios({url: "/api/register", data: {username, password, email, name}}).then((res) => {

@@ -14,7 +14,9 @@ export default function Layout(props: Props) {
         <meta name="description" content="Meet and hack" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header></header>
+      <header>
+        
+      </header>
         <main>
             {props.children}
         </main>
