@@ -2,7 +2,9 @@ import { Component, useState } from "react"
 
 type Props = {};
 
-type State = {};
+type State = {
+    username: string;
+};
 
 export default function Login(props: Props) {
     const [username, setUsername] = useState("");
@@ -11,16 +13,3 @@ export default function Login(props: Props) {
     </div>
 }
 
-
-// OR
-
-export default class Login2 extends Component<Props, State> {
-
-    constructor(props: Props) {
-        super(props);
-    }
-
-    render() {
-        return <div> Page </div>;
-    }
-}
