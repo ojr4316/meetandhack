@@ -14,7 +14,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   return (
-    <div>
+    <div className="form-container">
       <h1>Login</h1>
       <label htmlFor="last">Email</label>
       <input
