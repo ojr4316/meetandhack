@@ -17,7 +17,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { email, password } = req.body;
+  const { username, password, email, name } = req.body;
 
   const userExists = await prisma.user.findFirst({
     where: { email: email as string },
@@ -27,7 +27,7 @@ export default async function handler(
     const hashed = bcrypt.hashSync(password, saltRounds);
     console.log(hashed.length);
     const user = await prisma.user.create({
-      data: { email, password: hashed, name: "", is_manager: false, username: "" },
+      data: { email, password: hashed, name, is_manager: false, username},
     });
     return res.status(200).json({error: Error.None});
   } else {
