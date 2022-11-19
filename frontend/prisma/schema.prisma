@@ -10,8 +10,8 @@ datasource db {
 model project {
   id            Int            @id @default(autoincrement())
   name          String         @db.VarChar(50)
-  creation_date DateTime       @db.Date
-  finish_date   DateTime       @db.Date
+  creation_date DateTime?      @db.Timestamp(0)
+  finish_date   DateTime?      @db.DateTime(0)
   task          task[]
   user_project  user_project[]
 }
@@ -27,7 +27,7 @@ model task {
   id                    Int         @id @default(autoincrement())
   name                  String      @db.VarChar(50)
   creation_date         DateTime    @db.Date
-  finish_date           DateTime    @db.Date
+  finish_date           DateTime?   @db.Date
   project               Int
   project_projectTotask project     @relation(fields: [project], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "task_project_null_fk")
   task_tag              task_tag[]
