@@ -23,7 +23,8 @@ export default function Register() {
             <input type="text" onChange={(e) => setUsername(e.currentTarget.value)} value={username}/>
             <label htmlFor="password">Password</label>
             <input type="password" onChange={(e) => setPassword(e.currentTarget.value)} value={password}/>
-            <button type="submit" onClick={() => register(username, password, email, name)}>Submit</button>
+            <button className="btn" type="submit" onClick={() => register(username, password, email, name)}>Submit</button>
+
         </div>
     )
 
