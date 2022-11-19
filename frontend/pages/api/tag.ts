@@ -11,8 +11,7 @@ enum Error {
     None = "",
     InvalidMethod = "Invalid HTTP Method"
 }
-
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {

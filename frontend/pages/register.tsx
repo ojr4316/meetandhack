@@ -2,13 +2,25 @@ import axios from "axios";
 import { useState } from "react";
 import { withIronSessionSsr } from "iron-session/next";
 import { loginHandler, sessionOptions } from "../lib/session";
-export const getServerSideProps = withIronSessionSsr(loginHandler, sessionOptions);
+export const getServerSideProps = withIronSessionSsr(
+  loginHandler,
+  sessionOptions
+);
 
-function register(username: string, password: string, email: string, name: string) {
-    axios({url: "/api/register", data: {username, password, email, name}, method: "POST"}).then((res) => {
-      console.log(res);
-    });
-  }
+function register(
+  username: string,
+  password: string,
+  email: string,
+  name: string
+) {
+  axios({
+    url: "/api/register",
+    data: { username, password, email, name },
+    method: "POST",
+  }).then((res) => {
+    console.log(res);
+  });
+}
 
 export default function Register() {
     const [email, setEmail] = useState("");
@@ -37,4 +49,3 @@ export default function Register() {
     )
 
 }
-
