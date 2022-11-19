@@ -19,8 +19,6 @@ export default class Home extends Component<Props, State> {
     return (
       <Layout page="Home">
         <p>Project Management Application</p>
-        <button><Link href="/login"> Login</Link></button>
-        <button><Link href="/register"> Register</Link></button>
       </Layout>
     );
   }
