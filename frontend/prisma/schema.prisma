@@ -12,18 +12,8 @@ model project {
   name          String         @db.VarChar(50)
   creation_date DateTime       @db.Date
   finish_date   DateTime       @db.Date
-  project_task  project_task[]
+  task          task[]
   user_project  user_project[]
-}
-
-model project_task {
-  project                       Int
-  task                          Int
-  project_projectToproject_task project @relation(fields: [project], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "project_task_project_null_fk")
-  task_project_taskTotask       task    @relation(fields: [task], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "project_task_task_null_fk")
-
-  @@id([task, project])
-  @@index([project], map: "project_task_project_null_fk")
 }
 
 model tag {
@@ -34,13 +24,16 @@ model tag {
 }
 
 model task {
-  id            Int            @id @default(autoincrement())
-  name          String         @db.VarChar(50)
-  creation_date DateTime       @db.Date
-  finish_date   DateTime       @db.Date
-  project_task  project_task[]
-  task_tag      task_tag[]
-  user_task     user_task[]
+  id                    Int         @id @default(autoincrement())
+  name                  String      @db.VarChar(50)
+  creation_date         DateTime    @db.Date
+  finish_date           DateTime    @db.Date
+  project               Int
+  project_projectTotask project     @relation(fields: [project], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "task_project_null_fk")
+  task_tag              task_tag[]
+  user_task             user_task[]
+
+  @@index([project], map: "task_project_null_fk")
 }
 
 model task_tag {
