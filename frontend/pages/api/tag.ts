@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 type Data = {
     error: Error;
     tag?: tag;
+    tags?: tag[];
 }
 
 enum Error {
@@ -25,7 +26,14 @@ async function handler(
   } else if (req.method == "DELETE" && id) {
     await prisma.tag.delete({where: {id: parseInt(id)}});
     return res.status(200).json({error: Error.None });
-  } else {
+  } 
+  else if (req.method == "GET") {
+    console.log("req: " + req);
+    const tags = await prisma.tag.findMany();
+    console.log("tags: " + tags);
+    // return res.status(200).json({error: Error.None, tags });
+  } 
+  else {
     return res.status(400).json({error: Error.InvalidMethod});
   }
 }
