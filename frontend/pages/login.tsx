@@ -1,6 +1,6 @@
 export default function Login(){
     return(
-        <form action="/api/form" method="post">
+        <form name="form1" action="/api/form" method="post">
           <label htmlFor="last">Email</label>
           <input type="text" id="email" name="email" required />
           <label htmlFor="last">Password</label>

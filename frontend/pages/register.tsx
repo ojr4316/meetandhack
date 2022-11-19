@@ -1,6 +1,6 @@
 export default function Register() {
     return (
-        <form action="/api/form" method="post">
+        <form name="form1" action="/api/form" method="post">
             <h1>Register</h1>
             <label htmlFor="email">Email</label>
             <input type="text" id="email" name="email" required />
