@@ -1,9 +1,11 @@
 import { Component, useState } from "react";
 import axios from "axios";
 
-function login(username: string, password: string) {
-  axios({url: "/api/login", data: {username, password}}).then((res) => {
+function login(email: string, password: string) {
+  axios({url: "/api/login", method: "POST", data: {email, password}}).then((res) => {
     console.log(res);
+  }).catch((err) => {
+    console.log(err);
   });
 }
 
@@ -12,7 +14,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   return (
-    <form name="form1" action="/api/form" method="post">
+    <form name="form1" action="/api/login" method="post">
       <h1>Login</h1>
       <label htmlFor="last">Email</label>
       <input
