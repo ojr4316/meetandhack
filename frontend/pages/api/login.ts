@@ -20,7 +20,6 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const { email, password } = req.body;
-
   if (req.method == "POST" && email && password) {
     const userExists = await prisma.user.findFirst({
       where: { email: email as string },
