@@ -18,8 +18,9 @@ export default class Home extends Component<Props, State> {
   render() {
     return (
       <Layout page="Home">
-        <p>Project Management Application</p>
+        <h1>Welcome to Project Managment Made Easy</h1>
       </Layout>
+    
     );
   }
 }

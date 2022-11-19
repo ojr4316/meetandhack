@@ -54,7 +54,7 @@ nav ul{
 nav ul :hover{
   display: inline-block;
   list-style-type: none;
-  border-radius: 20px;
+  border-radius: 5px;
   color: white;
   background-color: #ff523b;
 }
@@ -81,6 +81,7 @@ p{
   margin: auto;
   padding-left: 25px;
   padding-right: 25px;
+  background-color: #ff523b;
 }
 /* html, body, #__next {
   width: 100%;

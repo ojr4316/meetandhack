@@ -1,5 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Layout.module.css";
+import logo from "../public/assets/logo.png";
 
 type Props = {
   children: JSX.Element[] | JSX.Element;
@@ -18,7 +19,8 @@ export default function Layout(props: Props) {
         <div className="container">
           <div className="navbar">
             <div className="logo">
-              <a href="/"><img src="" alt="" width="125px" /></a>
+
+              <a href=""><img src={logo.src} alt="" width="50px"/></a>
             </div>
             <nav>
               <ul id="MenuItems">
