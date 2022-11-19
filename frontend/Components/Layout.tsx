@@ -14,10 +14,27 @@ export default function Layout(props: Props) {
         <meta name="description" content="Meet and hack" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header></header>
-        <main>
-            {props.children}
-        </main>
+      <header>
+        <div className="container">
+          <div className="navbar">
+            <div className="logo">
+              <a href="/"><img src="" alt="" width="125px" /></a>
+            </div>
+            <nav>
+              <ul id="MenuItems">
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register">Register</a></li>
+                {/* <li><a href="/about.html"></a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="/account.html">Account</a></li> */}
+              </ul>
+            </nav>
+          </div>
+        </div>
+        </header>
+      <main>
+        {props.children}
+      </main>
       <footer></footer>
     </div>
   );

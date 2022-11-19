@@ -1,5 +1,6 @@
 import { Component, useState } from "react";
 import axios from "axios";
+import Layout from "../Components/Layout";
 
 function login(email: string, password: string) {
   axios.post("/api/login", {email, password}).then((res) => {
@@ -12,7 +13,6 @@ function login(email: string, password: string) {
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   return (
     <div className="form-container">
       <h1>Login</h1>
@@ -28,7 +28,7 @@ export default function Login() {
         onChange={(e) => setPassword(e.currentTarget.value)}
         value={password}
       />
-      <button type="submit" onClick={() => login(email, password)}>Sign In</button>
+      <button className="btn" type="submit" onClick={() => login(email, password)}>Sign In</button>
     </div>
   );
 }
