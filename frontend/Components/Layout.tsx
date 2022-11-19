@@ -25,9 +25,8 @@ export default function Layout(props: Props) {
               <ul id= {styles.MenuItems}>
                 <li><a className={styles.a} href="/login">Login</a></li>
                 <li><a className={styles.a} href="/register">Register</a></li>
-                {/* <li><a href="/about.html"></a></li>
-                <li><a href="/contact.html">Contact</a></li>
-                <li><a href="/account.html">Account</a></li> */}
+                <li><a className={styles.a} href="/pro">Set Projects</a></li>
+                <li><a className={styles.a} href="/daily-tasks">Your Daily Tasks</a></li>
               </ul>
             </nav>
           </div>
