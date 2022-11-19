@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-import { withIronSessionApiRoute } from "iron-session/next/dist";
+import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "../../lib/session";
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");

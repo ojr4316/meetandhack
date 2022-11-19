@@ -16,6 +16,9 @@ export default function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     return (
+      <div className="page-container">
+        <br />
+        <br />
         <div className="form-container">
           <span>
             <h1>Register</h1>
@@ -29,6 +32,7 @@ export default function Register() {
             <input type="password" onChange={(e) => setPassword(e.currentTarget.value)} value={password}/>
             <button className="btn" type="submit" onClick={() => register(username, password, email, name)}>Submit</button>
             </span>
+        </div>
         </div>
     )
 
