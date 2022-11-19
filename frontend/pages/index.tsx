@@ -34,7 +34,9 @@ export default class Home extends Component<Props, State> {
         </button>
         <Link href="/api/logout"> Logout</Link>
 
+        <h1>Welcome to Project Managment Made Easy</h1>
       </Layout>
+    
     );
   }
 }
