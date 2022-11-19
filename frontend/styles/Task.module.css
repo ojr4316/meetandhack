@@ -1,0 +1,10 @@
+.task_container {
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.remove {
+    width: 16px;
+}

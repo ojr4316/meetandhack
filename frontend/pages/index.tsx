@@ -5,13 +5,11 @@ import Link from "next/link";
 import { Component } from "react";
 import Layout from "../Components/Layout";
 import { protectedHandler, sessionOptions } from "../lib/session";
-
 import styles from "../styles/Home.module.css";
 
 type Props = {};
 
 type State = {};
-
 
 export const getServerSideProps = withIronSessionSsr(protectedHandler, sessionOptions);
 

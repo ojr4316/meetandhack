@@ -1,0 +1,44 @@
+.project_container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.project_header {
+    flex: 1 1 0;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.project_title {
+    color: black;
+    font-weight: 500;
+    font-size: 32px;
+}
+
+.project_content {
+    flex: 3 0 auto;
+    background-color: blue;
+    display: flex;
+}
+
+.left {
+    flex: 2 0 auto;
+    padding: 16px;
+}
+
+.task_lists {
+
+}
+
+.tasks {
+}
+
+.right {
+    flex: 1 0 100px;
+    padding: 16px;
+}
+
+.member_list {
+}

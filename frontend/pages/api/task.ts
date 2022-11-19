@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient, task, user_task } from '@prisma/client'
-const prisma = new PrismaClient();
+import { task, user_task } from '@prisma/client'
+import { prisma } from './../../lib/db';
 
 type Data = {
     error: Error;
