@@ -17,16 +17,21 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
   ){
-    const [id,name,project_id] = req.body;
+    const {name,project_name} = req.body;
     const date = new Date()
-    if(req.method == "POST" && name && project_id){
+    if(req.method == "POST" && name && project_name){
+        const project_id = (await prisma.project.findFirst({where:{name: project_name as string}}))?.id
         const task = await prisma.task.create({data:{name: name as string, creation_date: date , finish_date: new Date("2040-12-12"), project : project_id as number}});
         return res.status(200).json({error: Error.None, task });
-    } else if( req.method == "DELETE" && id){
-        await prisma.task.delete({where:{id:parseInt(id)}})
+    }else if( req.method == "DELETE" && name){
+        const id = (await prisma.task.findFirst({where:{name:name as string}}))?.id
+        await prisma.task.delete({where:{id:id}})
         return res.status(200).json({error: Error.None });
-    }else if(req.method == "PUT" && name && project_id && id){
-        await prisma.task.update({where:{id:parseInt(id)},data:{name: name as string, project:parseInt(project_id)}});
+        
+    }else if(req.method == "PUT" && name && project_name && name){
+        const id = (await prisma.task.findFirst({where:{name:name as string}}))?.id
+        const project_id = (await prisma.project.findFirst({where:{name: project_name as string}}))?.id
+        await prisma.task.update({where:{id:id},data:{name: name as string, project:project_id}});
         return res.status(200).json({error: Error.None});
     }
     else {
