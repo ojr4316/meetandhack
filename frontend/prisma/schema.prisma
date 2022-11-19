@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,100 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model project {
+  id            Int            @id @default(autoincrement())
+  name          String         @db.VarChar(50)
+  creation_date DateTime       @db.Date
+  finish_date   DateTime       @db.Date
+  project_task  project_task[]
+  user_project  user_project[]
+}
+
+model project_task {
+  project                       Int
+  task                          Int
+  project_projectToproject_task project @relation(fields: [project], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "project_task_project_null_fk")
+  task_project_taskTotask       task    @relation(fields: [task], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "project_task_task_null_fk")
+
+  @@id([task, project])
+  @@index([project], map: "project_task_project_null_fk")
+}
+
+model tag {
+  id       Int        @id @default(autoincrement())
+  name     String     @db.VarChar(50)
+  task_tag task_tag[]
+  user_tag user_tag[]
+}
+
+model task {
+  id            Int            @id @default(autoincrement())
+  name          String         @db.VarChar(50)
+  creation_date DateTime       @db.Date
+  finish_date   DateTime       @db.Date
+  project_task  project_task[]
+  task_tag      task_tag[]
+  user_task     user_task[]
+}
+
+model task_tag {
+  task                Int
+  tag                 Int
+  tag_tagTotask_tag   tag  @relation(fields: [tag], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "task_tag_tag_null_fk")
+  task_taskTotask_tag task @relation(fields: [task], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "task_tag_task_null_fk")
+
+  @@id([task, tag])
+  @@index([tag], map: "task_tag_tag_null_fk")
+}
+
+model user {
+  id                                      Int            @id @default(autoincrement())
+  email                                   String         @db.VarChar(50)
+  password                                String         @db.VarChar(50)
+  username                                String         @db.VarChar(50)
+  name                                    String         @db.VarChar(50)
+  is_manager                              Boolean
+  user_project_userTouser_project_manager user_project[] @relation("userTouser_project_manager")
+  user_project_userTouser_project_worker  user_project[] @relation("userTouser_project_worker")
+  user_tag                                user_tag[]
+  user_task_userTouser_task_manager       user_task[]    @relation("userTouser_task_manager")
+  user_task_userTouser_task_worker        user_task[]    @relation("userTouser_task_worker")
+}
+
+model user_project {
+  worker                          Int
+  manager                         Int
+  project                         Int
+  user_userTouser_project_manager user    @relation("userTouser_project_manager", fields: [manager], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_project_manager_fk")
+  project_projectTouser_project   project @relation(fields: [project], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_project_project_null_fk")
+  user_userTouser_project_worker  user    @relation("userTouser_project_worker", fields: [worker], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_project_worker_fk")
+
+  @@id([worker, project])
+  @@index([manager], map: "user_project_manager_fk")
+  @@index([project], map: "user_project_project_null_fk")
+}
+
+model user_tag {
+  user                Int
+  tag                 Int
+  tag_tagTouser_tag   tag  @relation(fields: [tag], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_tag_tag_null_fk")
+  user_userTouser_tag user @relation(fields: [user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_tag_user_null_fk")
+
+  @@id([tag, user])
+  @@index([user], map: "user_tag_user_null_fk")
+}
+
+model user_task {
+  worker                       Int
+  manager                      Int
+  task                         Int
+  user_userTouser_task_manager user @relation("userTouser_task_manager", fields: [manager], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_task_manager_fk")
+  task_taskTouser_task         task @relation(fields: [task], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_task_task_null_fk")
+  user_userTouser_task_worker  user @relation("userTouser_task_worker", fields: [worker], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_task_worker_fk")
+
+  @@id([worker, task])
+  @@index([manager], map: "user_task_manager_fk")
+  @@index([task], map: "user_task_task_null_fk")
 }

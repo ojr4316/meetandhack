@@ -1,7 +1,7 @@
 # meetandhack
 
 # Members
-Kellen Bell
-Derek Pruski
-Grahith Movva
-Owen Racette
+  - Kellen Bell
+  - Derek Pruski
+  - Grahith Movva
+  - Owen Racette
