@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "meetandhack.cdr2kxes6mwz.us-east-1.rds.amazonaws.com",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "meetandhack",
+            "database": "meetandhack",
+            "username": "admin",
+            "password": "Vb9656t5UJeK"
+        }
+    ]
+}
