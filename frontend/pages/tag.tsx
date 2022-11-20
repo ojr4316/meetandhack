@@ -1,5 +1,7 @@
 import axios from "axios";
 import { Component } from "react";
+import Layout from "../Components/Layout"
+import styles from "../styles/Tags.module.css";
 
 type Props = {};
 
@@ -55,14 +57,19 @@ export default class Tag extends Component<Props, State> {
         let { name, tags } = this.state;
         console.log(tags);
         return (
-            <div>
+       <Layout page="Project">
+        <br />
+        <br />
+            <div className= {styles.tagsContainer}>
                 <div className="form-container">
                     <h1>Create Tag</h1>
-                    <label htmlFor="first">Name</label>
+                    <label htmlFor="first">Name:</label>
                     <input type="text" onChange={(e) => this.setState({name: e.currentTarget.value})} value={name} />
                     <button type="submit" onClick={() => createTag(name)}>Submit</button>
-                </div>
-                <div className="tag-list">
+                    <br />
+                    <br />
+                    <div className="tag-list">
+                        <h3>Current Tags:</h3>
                     <ul>
                         {tags.map((tag, index) => {
                             return (
@@ -71,7 +78,9 @@ export default class Tag extends Component<Props, State> {
                         })}
                     </ul>
                 </div>
+                </div>
             </div>
+            </Layout>
         )
     }
 

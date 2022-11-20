@@ -1,0 +1,24 @@
+.tagsContainer input{
+  align-self: left;
+  width: 50%;
+}
+.tagsContainer button {
+    text-decoration: none;
+    width: 100%;
+    border: none;
+    padding: 10px;
+    border-radius: 2%;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    background: #ff523b;
+    color: white;
+    
+    letter-spacing: 0.2px;
+    outline: 0;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+  }
+  .tagsContainer  button:hover {
+    background: #aa2f1e;
+  }
