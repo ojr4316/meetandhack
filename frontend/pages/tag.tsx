@@ -1,3 +1,4 @@
+import { tag, user_tag } from "@prisma/client";
 import axios from "axios";
 import { Component } from "react";
 import Layout from "../Components/Layout"
@@ -7,7 +8,7 @@ type Props = {};
 
 type State = {
     name: string;
-    tags: [];
+    tags: tag[];
 };
 
 function createTag(name: string) {
@@ -20,10 +21,10 @@ function createTag(name: string) {
 async function addTag(name: string) {
     const res = await axios.get(`/api/tag?name=${name}`);
     console.log(res);
-    if (res.data.tags != undefined) {
-        let foundTagID = res.data.tag.id;
-        axios({ url: "/api/user_tag", data: { foundTagID }, method: "POST" }).then((res) => {
-            // console.log(res);
+    if (res.data.tag != undefined) {
+        let tag_id = res.data.tag.id;
+        axios({ url: "/api/user_tag", data: { tag_id }, method: "POST" }).then((res) => {
+            console.log(res);
         }).catch((err) => {
             console.log(err);
         });
@@ -35,8 +36,18 @@ async function addTag(name: string) {
 
 async function getTags() {
     try {
-        const res = await axios.get("/api/tag");
-        const tags = res.data.tags;
+        const tag_ids = await axios.get("/api/user_tag");
+        console.log(tag_ids);
+        const tags: tag[] = [];
+        tag_ids.data.user_tags.forEach(async (user_tag:user_tag) => {
+            let id = user_tag.tag;
+            console.log(id);
+            let tag = await axios.get('/api/tag', {params: {id}});
+            console.log(tag);
+            if (tag.data.tag) {
+                tags.push(tag.data.tag);
+            }
+        })
         return tags;
     } catch (error) {
         console.log(error);
@@ -58,6 +69,7 @@ export default class Tag extends Component<Props, State> {
         // TODO: Get members by project ID
 
         getTags().then((tags) => {
+            if (tags)
             this.setState({
                 tags: tags
             });

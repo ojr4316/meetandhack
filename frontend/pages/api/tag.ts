@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient, tag } from '@prisma/client'
+import { tag } from '@prisma/client'
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { sessionOptions } from "../../lib/session";
-const prisma = new PrismaClient();
+import { prisma } from '../../lib/db';
+
 
 type Data = {
   error: Error;
@@ -21,11 +22,14 @@ async function tagRoute(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  console.log(req);
 
   let { name, id } = req.body;
+
   if (req.method == "GET") {
-    let {name, id} = req.query;
+    console.log("query: " + req.query.id);
+    name = req.query.name;
+    id = req.query.id;
+    console.log("id:" + id)
   }
 
   if (req.method == "POST" && name) {
@@ -39,14 +43,15 @@ async function tagRoute(
     const tags = await prisma.tag.findMany();
     return res.status(200).json({ error: Error.None, tags });
   }
-  else if (req.method == "GET" && !id && name) {
+  else if (req.method == "GET" && name) {
     const tag = await prisma.tag.findFirst({where: {name}});
     if (tag) {
       return res.status(200).json({ error: Error.None, tag });
     }
   }
   else if (req.method == "GET" && id) {
-    const tag = await prisma.tag.findUnique({ where: { id: id } });
+    console.log("id: " + id);
+    const tag = await prisma.tag.findUnique({ where: { id: parseInt(id) } });
     if (tag) {
       return res.status(200).json({ error: Error.None, tag });
     }
