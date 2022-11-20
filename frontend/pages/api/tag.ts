@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient, tag } from '@prisma/client'
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { sessionOptions } from "../../lib/session";
 const prisma = new PrismaClient();
 
 type Data = {
@@ -12,7 +14,10 @@ enum Error {
     None = "",
     InvalidMethod = "Invalid HTTP Method"
 }
-async function handler(
+
+export default withIronSessionApiRoute(tagRoute, sessionOptions);
+
+async function tagRoute(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
@@ -28,10 +33,8 @@ async function handler(
     return res.status(200).json({error: Error.None });
   } 
   else if (req.method == "GET") {
-    console.log("req: " + req);
     const tags = await prisma.tag.findMany();
-    console.log("tags: " + tags);
-    // return res.status(200).json({error: Error.None, tags });
+    return res.status(200).json({error: Error.None, tags });
   } 
   else {
     return res.status(400).json({error: Error.InvalidMethod});

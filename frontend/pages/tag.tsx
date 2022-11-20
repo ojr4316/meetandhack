@@ -12,7 +12,7 @@ type Props = {};
 
 type State = {
     name: string;
-    tags: tag[];
+    tags: [];
 };
 
 function createTag(name: string) {
@@ -26,8 +26,7 @@ function createTag(name: string) {
 async function getTags() {
     try {
         const res = await axios.get("/api/tag");
-        const tags = res.data;
-        console.log(tags);
+        const tags = res.data.tags;
         return tags;
     } catch (error) {
         console.log(error);
@@ -58,16 +57,23 @@ export default class Tag extends Component<Props, State> {
 
     }
 
+    setName(newName: string){
+        this.state = {
+            name: newName,
+            tags: this.state.tags
+        };
+    }
+
 
     render() {
         let { name, tags } = this.state;
-        console.log("tags: " + tags)
+        console.log(tags);
         return (
             <div>
                 <div className="form-container">
                     <h1>Create Tag</h1>
                     <label htmlFor="first">Name</label>
-                    <input type="text" onChange={(e) => name = e.currentTarget.value} value={name} />
+                    <input type="text" onChange={(e) => this.setState({name: e.currentTarget.value})} value={name} />
                     <button type="submit" onClick={() => createTag(name)}>Submit</button>
                 </div>
                 <div className="tag-list">
