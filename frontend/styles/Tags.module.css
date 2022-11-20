@@ -1,23 +1,52 @@
-.tagsContainer input{
+.tagsContainer input {
   align-self: left;
-  width: 50%;
 }
+
 .tagsContainer button {
-    text-decoration: none;
-    width: 100%;
-    border: none;
-    padding: 10px;
-    border-radius: 2%;
-    cursor: pointer;
-    text-transform: uppercase;
-    background: #ff523b;
-    color: white;
-    
-    letter-spacing: 0.2px;
-    outline: 0;
-    -webkit-transition: all .3s;
-    transition: all .3s;
-  }
-  .tagsContainer  button:hover {
-    background: #aa2f1e;
-  }
+  text-decoration: none;
+  border: none;
+  padding: 10px;
+  border-radius: 2%;
+  cursor: pointer;
+  text-transform: uppercase;
+  background: #ff523b;
+  color: white;
+
+  letter-spacing: 0.2px;
+  outline: 0;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  margin-bottom: 32px;
+}
+
+.tagsContainer button:hover {
+  background: #aa2f1e;
+}
+
+.tagsContainer label {
+  font-size: 16px;
+  color: var(--grey);
+  padding-top: 16px;
+  padding-bottom: 32px;
+}
+
+.tagsContainer {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.tag_input {
+  font-size: 16px;
+  font-weight: normal;
+  padding: 8px;
+  border: none;
+  margin: 8px;
+}
+
+.tag_submit {
+  width: 250px;
+}
