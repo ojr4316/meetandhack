@@ -20,7 +20,7 @@ async function getTasks() {
     let tasks: task[] = [];
     user_tasks.forEach(async (user_task: user_task) => {
       let id = user_task.task;
-      let task = await axios.get("/api/task", { params: { id } });
+      let task = await axios.get(`/api/task?id=${id}`);
       if (task) {
         tasks.push(task.data.task);
       }

@@ -9,6 +9,7 @@ type Data = {
     user?: user;
     tags?: tag[];
     user_tags?: user_tag[];
+    user_tag?: user_tag;
 }
 
 export default withIronSessionApiRoute(userTagRoute, sessionOptions);
@@ -29,6 +30,13 @@ async function userTagRoute(
         await prisma.user_tag.create({ data: { user: parseInt(user_id), tag: parseInt(tag_id) } })
         return res.status(200).json({ error: Error.None });
     }
+    else if (req.method == "POST" && !user_id && tag_id) {
+        let user = req.session.user?.id;
+        if (user) {
+            let user_tag = await prisma.user_tag.create({ data: { user: user, tag: parseInt(tag_id) } })
+            return res.status(200).json({ error: Error.None, user_tag});
+        }
+    }
     else if (req.method == "DELETE" && id) {
         await prisma.user_tag.delete({ where: { id: parseInt(id) } })
         return res.status(200).json({ error: Error.None })
@@ -36,8 +44,8 @@ async function userTagRoute(
     else if (req.method == "GET" && !id) {
         const currentUserId = req.session.user?.id;
         if (currentUserId !== undefined) {
-            const tags = await prisma.user_tag.findMany({where: {user: currentUserId}});
-            return res.status(200).json({error: Error.None, user_tags: tags})
+            const tags = await prisma.user_tag.findMany({ where: { user: currentUserId } });
+            return res.status(200).json({ error: Error.None, user_tags: tags })
             // console.log("tags: " + tags !== null);
             // if (tags !== null) {
             //     let result: tag[] = [];
@@ -55,6 +63,6 @@ async function userTagRoute(
             //     }
             // }
         }
-        return res.status(400).json({error: Error.InvalidRequest});
+        return res.status(400).json({ error: Error.InvalidRequest });
     }
 }
