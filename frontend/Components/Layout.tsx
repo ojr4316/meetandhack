@@ -11,7 +11,7 @@ export default function Layout(props: Props) {
   return (
     <div className={styles.page_container}>
       <Head>
-        <title>Untitled</title>
+        <title>Meet and Hack</title>
         <meta name="description" content="Meet and hack" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -1,12 +1,5 @@
-import { tag } from "@prisma/client";
 import axios from "axios";
-import { useState } from "react";
-import { task, user } from "@prisma/client";
 import { Component } from "react";
-import Layout from "../Components/Layout";
-import { FrontendMember, Member } from "../Components/MemberCard";
-import { FrontendTask, Task } from "../Components/TaskCard";
-import styles from "../styles/Project.module.css";
 
 type Props = {};
 
@@ -55,13 +48,6 @@ export default class Tag extends Component<Props, State> {
 
 
 
-    }
-
-    setName(newName: string){
-        this.state = {
-            name: newName,
-            tags: this.state.tags
-        };
     }
 
 
