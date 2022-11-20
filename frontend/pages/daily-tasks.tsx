@@ -13,24 +13,6 @@ type State = {
   tasks: task[];
 };
 
-async function getTasks() {
-  try {
-    const res = await axios.get("/api/user_task");
-    let user_tasks: [] = res.data.user_tasks;
-    let tasks: task[] = [];
-    user_tasks.forEach(async (user_task: user_task) => {
-      let id = user_task.task;
-      let task = await axios.get(`/api/task?id=${id}`);
-      if (task) {
-        tasks.push(task.data.task);
-      }
-    });
-    return tasks;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 export default class DailyTasks extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -41,11 +23,30 @@ export default class DailyTasks extends Component<Props, State> {
     };
   }
 
+  async getTasks() {
+    try {
+      const res = await axios.get("/api/user_task");
+      let user_tasks: [] = res.data.user_tasks;
+      let tasks: task[] = [];
+      user_tasks.forEach(async (user_task: user_task) => {
+        let task_id = user_task.task;
+        let task = await axios.get('api/task', {params: {task_id}});
+        console.log(task);
+        if (task) {
+          tasks.push(task.data.task);
+        }
+      });
+      return tasks;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   componentDidMount() {
     // TODO: Get tasks by project ID
     // TODO: Get members by project ID
 
-    getTasks().then((tasks) => {
+    this.getTasks().then((tasks) => {
       if (tasks) {
         this.setState({
           tasks: tasks,
