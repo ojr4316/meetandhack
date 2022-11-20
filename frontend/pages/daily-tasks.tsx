@@ -67,7 +67,7 @@ export default class DailyTasks extends Component<Props, State> {
             <div className={styles.left}>
               <div className={styles.task_lists}></div>
               <div className={styles.tasks}>
-              {tasks.map((task, index) => {
+              {tasks && tasks.map((task, index) => {
                             return (
                                 <li key={index}>{task.name}</li>
                             )
