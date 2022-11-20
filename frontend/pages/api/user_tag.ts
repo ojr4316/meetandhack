@@ -48,9 +48,11 @@ async function userTagRoute(
                     }
                 });
                 if (result !== null) {
+                    console.log("returned");
                     return res.status(200).json({error: Error.None, tags: result})
                 }
             }
         }
+        return res.status(400).json({error: Error.InvalidRequest});
     }
 }

@@ -24,8 +24,9 @@ async function getAccount() {
 async function getTags() {
     try {
         const res = await axios.get("/api/user_tag");
-        const tags = res.data.tags;
-        console.log(tags);
+        console.log("res: " + res.data);
+        const tags = res.data;
+        console.log("in getTags: " + tags);
         return tags;
     } catch (error) {
         console.log(error);
@@ -59,6 +60,7 @@ export default class Account extends Component<Props, State> {
         })
 
         getTags().then((tags) => {
+            console.log("tags: " + tags);
             this.setState({
                 tags: tags
             });
