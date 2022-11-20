@@ -18,7 +18,7 @@ export default function Layout(props: Props) {
       </Head>
       <header className={styles.navbar}>
         <div className={styles.logo}>
-          <a className={styles.a} href="">
+          <a className={styles.a} href="/">
             <img src={logo.src} alt="" width="50px" />
           </a>
         </div>

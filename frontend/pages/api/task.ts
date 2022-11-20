@@ -18,7 +18,8 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
     let { name, project_id, task_id } = req.body;
-
+    let  { taskId } = req.query;
+    
     if (req.method == "GET") {
         name = req.query.name;
         project_id = req.query.project_id;
@@ -32,8 +33,8 @@ export default async function handler(
     if (req.method == "POST") {
         await prisma.task.create({ data: { name: name as string, creation_date: date, finish_date: new Date("2040-12-12"), project: parseInt(project_id) } });
         return res.status(200).json({ error: Error.None });
-    } else if (req.method == "DELETE" && task_id) {
-        await prisma.task.delete({ where: { id: parseInt(task_id as string) } })
+    } else if (req.method == "DELETE" && taskId) {
+        await prisma.task.delete({ where: { id: parseInt(taskId as string) } })
         return res.status(200).json({ error: Error.None });
 
     } else if (req.method == "PUT" && name && project_id && name) {
