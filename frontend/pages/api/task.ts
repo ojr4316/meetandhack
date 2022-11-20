@@ -3,23 +3,28 @@ import { task, user_task } from "@prisma/client";
 import { prisma } from "./../../lib/db";
 
 type Data = {
-  error: Error;
-  task?: task;
+    error: Error;
+    task?: task;
 };
 
 enum Error {
-  None = "",
-  InvalidUsername = "Could not find username",
-  InvalidUser = "Not the manager",
-  InvalidRequest = "Invalid request",
+    None = "",
+    InvalidUsername = "Could not find username",
+    InvalidUser = "Not the manager",
+    InvalidRequest = "Invalid request",
 }
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
 ) {
-    const { name, project_id, task_id } = req.body;
-    const { taskId } = req.query;
-    console.log("task_id: " + task_id);
+    let { name, project_id, task_id } = req.body;
+
+    if (req.method == "GET") {
+        name = req.query.name;
+        project_id = req.query.project_id;
+        task_id = req.query.task_id;
+    }
+
     const date = new Date()
     // const user = req.session.user
     // if (user){
@@ -27,16 +32,16 @@ export default async function handler(
     if (req.method == "POST") {
         await prisma.task.create({ data: { name: name as string, creation_date: date, finish_date: new Date("2040-12-12"), project: parseInt(project_id) } });
         return res.status(200).json({ error: Error.None });
-    } else if (req.method == "DELETE" && taskId) {
-        await prisma.task.delete({ where: { id: parseInt(taskId as string) } })
+    } else if (req.method == "DELETE" && task_id) {
+        await prisma.task.delete({ where: { id: parseInt(task_id as string) } })
         return res.status(200).json({ error: Error.None });
 
     } else if (req.method == "PUT" && name && project_id && name) {
         const id = (await prisma.task.findFirst({ where: { name: name as string } }))?.id
         await prisma.task.update({ where: { id: id }, data: { name: name as string, project: parseInt(project_id) } });
         return res.status(200).json({ error: Error.None });
-    } else if (req.method == "GET" && task_id) {
-        const task = await prisma.task.findUnique({ where: { id: task_id } });
+    } else if (req.method == "GET") {
+        const task = await prisma.task.findUnique({ where: { id: parseInt(task_id) } });
         if (task) {
             return res.status(200).json({ error: Error.None, task });
         }

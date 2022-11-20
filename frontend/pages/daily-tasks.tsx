@@ -23,19 +23,18 @@ export default class DailyTasks extends Component<Props, State> {
     };
   }
 
- async getTasks() {
+  async getTasks() {
     try {
       const res = await axios.get("/api/user_task");
       let user_tasks: [] = res.data.user_tasks;
-      console.log(user_tasks);
       let tasks: task[] = [];
       user_tasks.forEach(async (user_task: user_task) => {
-        let id = user_task.task;
-        let task = await axios.get(`/api/task?id=${id}`);
+        let task_id = user_task.task;
+        let task = await axios.get('api/task', {params: {task_id}});
+        console.log(task);
         if (task) {
           tasks.push(task.data.task);
         }
-        console.log(task);
       });
       return tasks;
     } catch (error) {
