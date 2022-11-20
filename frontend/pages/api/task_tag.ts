@@ -16,11 +16,11 @@ export default async function handler(
   ){
     const {task_id,tag_id,id} = req.body;
     if(req.method == "POST" && task_id &&task_id && tag_id){
-        await prisma.task_tag.create({data:{task: task_id,tag: tag_id}})
+        await prisma.task_tag.create({data:{task: parseInt(task_id),tag: parseInt(tag_id)}})
         return res.status(200).json({error: Error.None});
     }
     else if(req.method == "DELETE" && id){
-        await prisma.task_tag.delete({where:{id:id}})
+        await prisma.task_tag.delete({where:{id: parseInt(id)}})
         return res.status(200).json({error:Error.None})
     }
   }

@@ -16,11 +16,11 @@ export default async function handler(
   ){
     const {user_id,tag_id,id} = req.body;
     if(req.method == "POST" && user_id &&tag_id ){
-        await prisma.user_tag.create({data:{user: user_id,tag: tag_id}})
+        await prisma.user_tag.create({data:{user: parseInt(user_id),tag: parseInt(tag_id)}})
         return res.status(200).json({error: Error.None});
     }
     else if(req.method == "DELETE" && id){
-        await prisma.user_tag.delete({where:{id : id}})
+        await prisma.user_tag.delete({where:{id : parseInt(id)}})
         return res.status(200).json({error:Error.None})
     }
   }

@@ -16,11 +16,11 @@ export default async function handler(
   ){
     const {user_id,task_id,manager_id,id} = req.body;
     if(req.method == "POST" && user_id &&task_id && manager_id){
-        await prisma.user_task.create({data:{worker: user_id,manager: manager_id, task: task_id}})
+        await prisma.user_task.create({data:{worker: parseInt(user_id),manager: parseInt(manager_id), task: parseInt(task_id)}})
         return res.status(200).json({error: Error.None});
     }
     else if(req.method == "DELETE" && id){
-        await prisma.user_task.delete({where:{id : id}})
+        await prisma.user_task.delete({where: {id: parseInt(id)}});
         return res.status(200).json({error:Error.None})
     }
   }
