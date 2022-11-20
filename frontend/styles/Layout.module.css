@@ -5,7 +5,7 @@
 }
 .nav{
   flex: 1;
-  text-align: right;
+  text-align: center;
 }
 .nav ul{
   display: inline-block;
@@ -22,10 +22,14 @@
 }
 .nav ul li{
   display: inline-block;
+  align-items: center;
   margin-right: 20px;
 }
 .logo{
   size: 50%;
+}
+.nav ul li a :active{
+  border-bottom: 2px solid blue;
 }
 .a{
   border-radius: 10%;
