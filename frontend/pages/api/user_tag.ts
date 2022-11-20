@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, tag, user, user_tag } from "@prisma/client";
+import { tag, user, user_tag } from "@prisma/client";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "../../lib/session";
-const prisma = new PrismaClient();
+import { prisma } from "../../lib/db";
 
 type Data = {
     error: Error;
@@ -25,12 +25,29 @@ async function userTagRoute(
     req: NextApiRequest,
     res: NextApiResponse<Data>
 ) {
-    const { user_id, tag_id, id } = req.body;
+    let { user_id, tag_id, id } = req.body;
+
+    if (req.method == "GET") {
+        user_id = req.query.user_id;
+        tag_id = req.query.tag_id;
+        id = req.query.id;
+    }
+
+    console.log(user_id + " " + tag_id + " " + id);
+
     if (req.method == "POST" && user_id && tag_id) {
+        user_id = req.session.user?.id;
+        if (user_id !== undefined) {
+            const found = await prisma.user_tag.findMany({ where: { user_id: parseInt(user_id), tag_id: parseInt(tag_id)  } });
+            if (found) {
+                return res.status(400).json({error: Error.InvalidRequest});
+            }
+        }
         await prisma.user_tag.create({ data: { user: parseInt(user_id), tag: parseInt(tag_id) } })
         return res.status(200).json({ error: Error.None });
     }
-    else if (req.method == "POST" && !user_id && tag_id) {
+    else if (req.method == "POST") {
+        console.log("in");
         let user = req.session.user?.id;
         if (user) {
             let user_tag = await prisma.user_tag.create({ data: { user: user, tag: parseInt(tag_id) } })
@@ -41,27 +58,11 @@ async function userTagRoute(
         await prisma.user_tag.delete({ where: { id: parseInt(id) } })
         return res.status(200).json({ error: Error.None })
     }
-    else if (req.method == "GET" && !id) {
+    else if (req.method == "GET") {
         const currentUserId = req.session.user?.id;
         if (currentUserId !== undefined) {
             const tags = await prisma.user_tag.findMany({ where: { user: currentUserId } });
             return res.status(200).json({ error: Error.None, user_tags: tags })
-            // console.log("tags: " + tags !== null);
-            // if (tags !== null) {
-            //     let result: tag[] = [];
-            //     tags.forEach(async (tag) => {
-            //         console.log("tag: " + tag);
-            //         let val = await prisma.tag.findUnique({where: {id: tag.tag}});
-            //         console.log("val: " + val !== null);
-            //         if (val !== null) {
-            //             result.push(val);
-            //         }
-            //     });
-            //     if (result !== null) {
-            //         console.log("returned");
-            //         return res.status(200).json({error: Error.None, tags: result})
-            //     }
-            // }
         }
         return res.status(400).json({ error: Error.InvalidRequest });
     }
