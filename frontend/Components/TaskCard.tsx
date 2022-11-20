@@ -22,8 +22,8 @@ export type FrontendTask = {
 export function Task(props: Props) {
   return (
     <div className={styles.task_container}>
-      <div>
-        <p>{props.task.name}</p>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <p className={styles.task_name}>{props.task.name}</p>
         <FontAwesomeIcon
           icon={faTrash}
           onClick={props.remove}
@@ -33,8 +33,14 @@ export function Task(props: Props) {
 
       <div>
         <p>{props.task.description}</p>
-        <p>Started {moment(props.task.started).format("MMM DD YYYY")}</p> 
-        {props.task.dueDate ? <p>Due {moment(props.task.dueDate).fromNow()}</p> : <div/>}
+      </div>
+      <div style={{ paddingTop: "16px", display: "flex", justifyContent: "space-between" }}>
+        <p>Started {moment(props.task.started).format("MMM DD YYYY")}</p>
+        {props.task.dueDate ? (
+          <p>Due {moment(props.task.dueDate).fromNow()}</p>
+        ) : (
+          <div />
+        )}
       </div>
     </div>
   );

@@ -7,4 +7,17 @@
 
 .remove {
     width: 16px;
+    color: var(--brown);
+    transition: 0.2s ease all;
+}
+
+.remove:hover {
+    color: var(--fail);
+}
+
+
+.task_name {
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--brown);
 }

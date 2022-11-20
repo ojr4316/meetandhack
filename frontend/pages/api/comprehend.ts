@@ -1,7 +1,6 @@
 const AWS = require("aws-sdk");
 import {
   ComprehendClient,
-  BatchDetectDominantLanguageCommand,
   DetectEntitiesCommand,
   DetectKeyPhrasesCommand,
   DetectSyntaxCommand,
@@ -14,10 +13,12 @@ import wordsToNumbers from "words-to-numbers";
 var pluralize = require("pluralize");
 import * as chrono from "chrono-node";
 import moment from "moment";
+import { prisma } from "./../../lib/db";
+import { task } from "@prisma/client";
 
 type Data = {
   error: Error;
-  task?: ComprehendTask;
+  task?: task;
 };
 
 type ComprehendTask = {
@@ -30,6 +31,7 @@ type ComprehendTask = {
 
 enum Error {
   None = "",
+  InvalidParams = "Invalid Parameters",
 }
 
 export default withIronSessionApiRoute(comprehend, sessionOptions);
@@ -76,6 +78,8 @@ const RESULTS = [
   "method",
   "test case",
   "animation",
+  "route",
+  "program"
 ];
 
 function isWorkerQuantity(input: string): {
@@ -133,8 +137,11 @@ function extractResults(input: string): string | null {
 
 // Will try to take input and turn it into task (or many tasks)
 async function comprehend(req: NextApiRequest, res: NextApiResponse) {
-  const { input } = req.body;
+  const { input, projectId } = req.body;
 
+  if (!input) {
+    return res.status(400).json({ error: Error.InvalidParams });
+  }
   const client = new ComprehendClient({
     region: "us-east-1",
     credentials: {
@@ -144,6 +151,7 @@ async function comprehend(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
+  let taskName:string = "";
   let numWorkers: number = 0;
   let workerType: string = "";
   let workerSkills: string[] = [];
@@ -185,6 +193,14 @@ async function comprehend(req: NextApiRequest, res: NextApiResponse) {
     }
     if (results && !taskDesc.includes(results)) {
       taskDesc.push(results);
+    }
+
+    if (!t.isWorkerQuantity) {
+      if (results) {
+        taskName = results;
+      } else if (skill) {
+        taskName = skill;
+      }
     }
   });
 
@@ -243,8 +259,6 @@ async function comprehend(req: NextApiRequest, res: NextApiResponse) {
     console.log("No due date assigned");
   }
 
-  console.log(taskDesc.join(", "));
-
   /*
 
   console.log(
@@ -257,9 +271,36 @@ async function comprehend(req: NextApiRequest, res: NextApiResponse) {
     )}) `
   );*/
 
-  taskDesc.push("Full Statement: " + input);
-  return res.status(200).json({
-    error: Error.None,
-    task: { dueDate, workerSkills, taskDesc, numWorkers, workerType },
-  });
+  taskDesc.push(
+    `Resources Needed: ${numWorkers} ${pluralize(workerType, numWorkers)}`
+  );
+  if (workerSkills.length > 0) {
+    taskDesc.push("Skills needed: " + workerSkills.join(", "));
+  }
+
+  taskDesc.push(input + "\n");
+
+  if (!taskName) {
+    taskName = taskDesc[0];
+  }
+
+  if (!projectId) {
+    return res.status(400).json({ error: Error.InvalidParams });
+  } else {
+    // Try to create task with collected data
+    const task = await prisma.task.create({
+      data: {
+        name: taskName,
+        description: taskDesc.join("\n"),
+        creation_date: new Date(),
+        finish_date: dueDate,
+        project: projectId,
+      },
+    });
+
+    return res.status(200).json({
+      error: Error.None,
+      task,
+    });
+  }
 }

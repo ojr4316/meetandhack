@@ -6,6 +6,11 @@
   --white: #e8ded1;
   --brown: #a0816c;
   --mustard: #c8ad7e;
+  --success: #22bb33;
+  --warning: #f0ad4e;
+  --fail: #bb2124;
+  --info: #5bc0de;
+  --grey: #aaaaaa;
 }
 
 * {

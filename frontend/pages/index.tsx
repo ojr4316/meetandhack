@@ -82,16 +82,18 @@ export default class Home extends Component<Props, State> {
       });
   };
 
-  getTaskInfo = () => {
-    const { prompt } = this.state;
+  addTask = () => {
+    const { prompt, activeProject, myProjects } = this.state;
     axios
-      .post("/api/comprehend", { input: prompt })
+      .post("/api/comprehend", { input: prompt, projectId: myProjects[activeProject].id })
       .then((res) => {
         if (res.data.task) {
-          console.log(res.data.task);
+          this.setState({prompt: ""});
+          this.getTasks(myProjects[activeProject].id);
         }
       })
       .catch((err) => {
+        this.setState({prompt: ""});
         console.log(err.response.data);
       });
   };
@@ -100,7 +102,7 @@ export default class Home extends Component<Props, State> {
     this.setState({tasks: this.state.tasks.filter(function(task) { 
       return task.id !== id
   })}); 
-    // TODO: Make API call to actually remove it
+    axios.delete(`/api/task?taskId=${id}`);
   }
 
   render() {
@@ -132,7 +134,7 @@ export default class Home extends Component<Props, State> {
             />
             <button
               className={styles.prompt_submit}
-              onClick={() => this.getTaskInfo()}
+              onClick={() => this.addTask()}
             >
               Create Task
             </button>
@@ -140,9 +142,8 @@ export default class Home extends Component<Props, State> {
         </div>
         {tasks.length == 0 ? (
           <p>
-            {" "}
             No tasks created yet! Get started by typing any task that needs to
-            get done.{" "}
+            get done.
           </p>
         ) : (
           <div className={styles.task_container}>

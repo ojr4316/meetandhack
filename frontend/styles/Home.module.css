@@ -24,3 +24,11 @@
   font-weight: 600;
   font-size: 18px;
 }
+
+.task_container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px;
+}
