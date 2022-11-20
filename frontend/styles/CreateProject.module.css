@@ -1,0 +1,46 @@
+.projectContainer{
+    display: flex 1;
+    align-items: center;
+    align-content: center;
+}
+.projectContainer h1{
+    padding: auto;
+    text-align: center;
+    align-self: center;
+}
+.list{
+    display: inline;
+    list-style: none;
+}
+.projectContainer label{
+    text-align: center;
+    align-self: center;
+}
+.projectContainer input{
+    align-self: center;
+    text-align: center;
+}
+.projectContainer .desc{
+    height: 100px;
+    width: 500px;
+}
+.projectContainer button {
+    text-decoration: none;
+    width: 10%;
+    border: none;
+    padding: 18px;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    background: #ff523b;
+    color: white;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 0;
+    letter-spacing: 0.2px;
+    outline: 0;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+  }
+  .projectContainer button:hover {
+    background: #aa2f1e;
+  }

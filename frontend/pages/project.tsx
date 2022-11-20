@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
+import Layout from "../Components/Layout";
+import styles from "../styles/CreateProject.module.css";
 
 function createProject(name: string) {
     axios({ url: "/api/project", data: { name }, method: "POST" }).then((res) => {
@@ -11,13 +13,20 @@ function createProject(name: string) {
 
 export default function Tag() {
     const [name, setName] = useState("");
+    const [desc, setDesc] = useState("");
     return (
-        <div className="projectContainer">
+        <Layout page="Project">
+        <div className={styles.projectContainer}>
             <h1>Create Project</h1>
-            <label htmlFor="first">Name</label>
-            <input type="text" onChange={(e) => setName(e.currentTarget.value)} value={name} />
-            <button type="submit" onClick={() => createProject(name)}>Submit</button>
+            <ul className={styles.list}>
+            <li><label htmlFor="name">Project Name:</label></li>
+            <li><input type="text" onChange={(e) => setName(e.currentTarget.value)} value={name} /></li>
+            <li><label htmlFor="desc">Enter Description:</label></li>
+            <li><textarea className={styles.desc} type="string" onChange={(e) => setDesc(e.currentTarget.value)} value={desc} /></li>
+            <li><button type="submit" onClick={() => createProject(name)}>Submit</button></li>
+            </ul>
         </div>
+        </Layout>
     )
 
 }

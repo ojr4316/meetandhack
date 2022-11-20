@@ -1,8 +1,6 @@
-
 .project_container {
   display: flex;
   flex-direction: column;
-  background: radial-gradient(rgb(86, 86, 235), blue);
   height: max-content;
   min-height: 100%;
   background-repeat: repeat-y;
@@ -13,13 +11,14 @@
   padding: 16px;
   display: flex;
   text-align: center;
+  align-self: center;
 }
 
 .project_title {
-  color: white;
+  color: black;
   font-weight: 500;
   font-size: 32px;
-  text-align: center;
+  align-self: center;
 }
 
 .project_content {
@@ -29,7 +28,7 @@
 
 .left {
   flex: 2 0 auto;
-  padding: 80px 200px;
+  padding: 30px 200px;
   align-items: center;
 }
 
