@@ -61,6 +61,7 @@ export default class Project extends Component<Props, State> {
           <div className={styles.project_content}>
             <div className={styles.left}>
               <div className={styles.task_lists}></div>
+              <h1 className= {styles.team}>Tasks</h1>
               <div className={styles.tasks}>
                 {tasks.map((t) => (
                   <Task task={t} remove={() => this.removeTaskById(t.id)} />
@@ -68,6 +69,7 @@ export default class Project extends Component<Props, State> {
               </div>
             </div>
             <div className={styles.right}>
+              <h1 className= {styles.team}>Team</h1>
               <div className={styles.member_list}>
                 {members.map((m) => (
                   <Member id={m.id} name={m.name} />

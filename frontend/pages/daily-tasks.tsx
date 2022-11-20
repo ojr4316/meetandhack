@@ -49,7 +49,6 @@ export default class DailyTasks extends Component<Props, State> {
   render() {
     const { name, members, tasks } = this.state;
     return (
-      <html>
       <Layout page="Project">
         <div className={styles.project_container}>
           <div className={styles.project_header}>
@@ -74,7 +73,6 @@ export default class DailyTasks extends Component<Props, State> {
           </div>
         </div>
       </Layout>
-      </html>
     );
   }
 }
