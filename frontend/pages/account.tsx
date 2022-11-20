@@ -1,3 +1,4 @@
+import { tag, user_tag } from "@prisma/client";
 import axios from "axios";
 import { Component } from "react";
 
@@ -24,9 +25,14 @@ async function getAccount() {
 async function getTags() {
     try {
         const res = await axios.get("/api/user_tag");
-        console.log("res: " + res.data);
-        const tags = res.data;
-        console.log("in getTags: " + tags);
+        console.log(res);
+        let tags: tag[] = [];
+        res.data.user_tags.forEach(async(t: user_tag) => {
+            let id = t.tag;
+            const res = await axios.get("/api/tag", { params: {id}});
+            let tag = res.data.tag;
+            tags.push(tag);
+        });
         return tags;
     } catch (error) {
         console.log(error);
