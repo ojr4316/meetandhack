@@ -1,4 +1,4 @@
-import { task, user } from "@prisma/client";
+import { task, user, user_task } from "@prisma/client";
 import axios from "axios";
 import { Component } from "react";
 import Layout from "../Components/Layout";
@@ -10,16 +10,24 @@ type Props = {};
 
 type State = {
   name: string;
-  tasks: FrontendTask[];
+  tasks: task[];
 };
 
 async function getTasks() {
   try {
-      const res = await axios.get("/api/user_task");
-      const tasks = res.data.tasks;
-      return tasks;
+    const res = await axios.get("/api/user_task");
+    let user_tasks: [] = res.data.user_tasks;
+    let tasks: task[] = [];
+    user_tasks.forEach(async (user_task: user_task) => {
+      let id = user_task.task;
+      let task = await axios.get("/api/task", { params: { id } });
+      if (task) {
+        tasks.push(task.data.task);
+      }
+    });
+    return tasks;
   } catch (error) {
-      console.log(error);
+    console.log(error);
   }
 }
 
@@ -33,30 +41,35 @@ export default class DailyTasks extends Component<Props, State> {
     };
   }
 
-  
+
 
   componentDidMount() {
     // TODO: Get tasks by project ID
     // TODO: Get members by project ID
 
     getTasks().then((tasks) => {
+      if (tasks) {
         this.setState({
           tasks: tasks
         });
+      }
     })
 
 
-}
+  }
 
-  removeTaskById(id:number) {
-    this.setState({tasks: this.state.tasks.filter(function(task) { 
-      return task.id !== id
-  })}); 
+  removeTaskById(id: number) {
+    this.setState({
+      tasks: this.state.tasks.filter(function (task) {
+        return task.id !== id
+      })
+    });
     // TODO: Make API call to actually remove it
   }
 
   render() {
     const { name, tasks } = this.state;
+    console.log(this.state);
     return (
       <Layout page="Project">
         <div className={styles.project_container}>
@@ -67,11 +80,11 @@ export default class DailyTasks extends Component<Props, State> {
             <div className={styles.left}>
               <div className={styles.task_lists}></div>
               <div className={styles.tasks}>
-              {tasks.map((task, index) => {
-                            return (
-                                <li key={index}>{task.name}</li>
-                            )
-                        })}
+                {tasks.map((task, index) => {
+                  return (
+                    <li key={index}>{task.name}</li>
+                  )
+                })}
               </div>
             </div>
           </div>

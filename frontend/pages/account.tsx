@@ -9,7 +9,7 @@ type State = {
     email: string;
     username: string;
     is_manager: boolean;
-    tags: [];
+    tags: tag[];
 };
 
 async function getAccount() {
@@ -27,9 +27,9 @@ async function getTags() {
         const res = await axios.get("/api/user_tag");
         console.log(res);
         let tags: tag[] = [];
-        res.data.user_tags.forEach(async(t: user_tag) => {
+        res.data.user_tags.forEach(async (t: user_tag) => {
             let id = t.tag;
-            const res = await axios.get("/api/tag", { params: {id}});
+            const res = await axios.get("/api/tag", { params: { id } });
             let tag = res.data.tag;
             tags.push(tag);
         });
@@ -67,9 +67,11 @@ export default class Account extends Component<Props, State> {
 
         getTags().then((tags) => {
             console.log("tags: " + tags);
-            this.setState({
-                tags: tags
-            });
+            if (tags) {
+                this.setState({
+                    tags: tags
+                });
+            }
         })
 
     }
