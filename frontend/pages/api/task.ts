@@ -17,7 +17,7 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
   ){
-    const {name,project_id} = req.body;
+    const {name,project_id, task_id} = req.body;
     const date = new Date()
     // const user = req.session.user
     // if (user){
@@ -34,6 +34,11 @@ export default async function handler(
                 const id = (await prisma.task.findFirst({where:{name:name as string}}))?.id
                 await prisma.task.update({where:{id:id},data:{name: name as string, project:parseInt(project_id)}});
                 return res.status(200).json({error: Error.None});
+            } else if (req.method == "GET" && task_id) {
+                const task = await prisma.task.findUnique({where: {id: task_id}});
+                if (task) {
+                    return res.status(200).json({error: Error.None, task});
+                }
             }
             else {
                 return res.status(400).json({error: Error.InvalidRequest});
