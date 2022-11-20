@@ -1,4 +1,5 @@
 import { task, user } from "@prisma/client";
+import axios from "axios";
 import { Component } from "react";
 import Layout from "../Components/Layout";
 import { FrontendMember, Member } from "../Components/MemberCard";
@@ -9,9 +10,18 @@ type Props = {};
 
 type State = {
   name: string;
-  members: FrontendMember[];
   tasks: FrontendTask[];
 };
+
+async function getTasks() {
+  try {
+      const res = await axios.get("/api/user_task");
+      const tasks = res.data.tasks;
+      return tasks;
+  } catch (error) {
+      console.log(error);
+  }
+}
 
 export default class DailyTasks extends Component<Props, State> {
   constructor(props: Props) {
@@ -19,25 +29,24 @@ export default class DailyTasks extends Component<Props, State> {
 
     this.state = {
       name: "",
-      members: [],
       tasks: [],
     };
   }
+
+  
 
   componentDidMount() {
     // TODO: Get tasks by project ID
     // TODO: Get members by project ID
 
-    this.setState({
-      name: "Your Tasks",
-      tasks: [
-        { id: 1, name: "Test Task 1" },
-        { id: 2, name: "Test Task 2" },
-        { id: 3, name: "Test Task 3" },
-        { id: 4, name: "Test Task 4" },
-      ],
-    });
-  }
+    getTasks().then((tasks) => {
+        this.setState({
+          tasks: tasks
+        });
+    })
+
+
+}
 
   removeTaskById(id:number) {
     this.setState({tasks: this.state.tasks.filter(function(task) { 
@@ -47,7 +56,7 @@ export default class DailyTasks extends Component<Props, State> {
   }
 
   render() {
-    const { name, members, tasks } = this.state;
+    const { name, tasks } = this.state;
     return (
       <Layout page="Project">
         <div className={styles.project_container}>
@@ -58,16 +67,11 @@ export default class DailyTasks extends Component<Props, State> {
             <div className={styles.left}>
               <div className={styles.task_lists}></div>
               <div className={styles.tasks}>
-                {tasks.map((t) => (
-                  <Task task={t} remove={() => this.removeTaskById(t.id)} />
-                ))}
-              </div>
-            </div>
-            <div className={styles.right}>
-              <div className={styles.member_list}>
-                {members.map((m) => (
-                  <Member id={m.id} name={m.name} />
-                ))}
+              {tasks.map((task, index) => {
+                            return (
+                                <li key={index}>{task.name}</li>
+                            )
+                        })}
               </div>
             </div>
           </div>
