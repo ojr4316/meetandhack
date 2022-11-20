@@ -101,15 +101,15 @@
     -webkit-transition: all .3s;
     transition: all .3s;
   }
-  .loginForm .action .button:hover {
+  .loginForm .action button:hover {
     background: #aa2f1e;
   }
-  .loginForm .action .button:nth-child(2) {
+  .loginForm .action button:nth-child(2) {
     background: #f44303;
     color: white;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 4px;
   }
-  .loginForm .action .button:nth-child(2):hover {
+  .loginForm .action button:nth-child(2):hover {
     background: #b02e1d;
 }

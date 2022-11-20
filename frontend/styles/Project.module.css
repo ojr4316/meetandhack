@@ -2,13 +2,16 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    height: max-content;
+    background-repeat: repeat-y;
+    background-color: lightblue;
 }
 
 .project_header {
     flex: 1 1 0;
     padding: 16px;
     display: flex;
-    align-items: center;
+    align-self: center;
 }
 
 .project_title {
@@ -19,7 +22,6 @@
 
 .project_content {
     flex: 3 0 auto;
-    background-color: blue;
     display: flex;
 }
 
@@ -29,8 +31,9 @@
 }
 
 .team{
-    color: white;
+    color: black;
     text-align: center;
+    border-bottom-color: red;
   }
 
 .task_lists {
