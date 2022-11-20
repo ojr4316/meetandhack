@@ -63,10 +63,7 @@ export default class Tag extends Component<Props, State> {
             });
         })
 
-
-
     }
-
 
     render() {
         let { name, tags } = this.state;
@@ -78,15 +75,16 @@ export default class Tag extends Component<Props, State> {
                 <div className={styles.tagsContainer}>
                     <div className="form-container">
                         <h1>Create Tag</h1>
-                        <label htmlFor="first">Name:</label>
-                        <input type="text" onChange={(e) => this.setState({ name: e.currentTarget.value })} value={name} />
+                        <label htmlFor="first">Name</label>
+                        <br/>
+                        <input type="text" onChange={(e) => this.setState({ name: e.currentTarget.value })} value={name} className={styles.tag_input} />
+                        <br/>
                         <button type="submit" onClick={() => addTag(name)}>Submit</button>
-                        <br />
                         <br />
                         <div className="tag-list">
                             <h3>Current Tags:</h3>
                             <ul>
-                                {tags.map((tag, index) => {
+                                {tags.map((tag: any, index) => {
                                     return (
                                         <li key={index}>{tag.name}</li>
                                     )
