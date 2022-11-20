@@ -8,6 +8,7 @@ type Data = {
     error: Error;
     user?: user;
     tags?: tag[];
+    user_tags?: user_tag[];
 }
 
 export default withIronSessionApiRoute(userTagRoute, sessionOptions);
@@ -36,22 +37,23 @@ async function userTagRoute(
         const currentUserId = req.session.user?.id;
         if (currentUserId !== undefined) {
             const tags = await prisma.user_tag.findMany({where: {user: currentUserId}});
-            console.log("tags: " + tags !== null);
-            if (tags !== null) {
-                let result: tag[] = [];
-                tags.forEach(async (tag) => {
-                    console.log("tag: " + tag);
-                    let val = await prisma.tag.findUnique({where: {id: tag.tag}});
-                    console.log("val: " + val !== null);
-                    if (val !== null) {
-                        result.push(val);
-                    }
-                });
-                if (result !== null) {
-                    console.log("returned");
-                    return res.status(200).json({error: Error.None, tags: result})
-                }
-            }
+            return res.status(200).json({error: Error.None, user_tags: tags})
+            // console.log("tags: " + tags !== null);
+            // if (tags !== null) {
+            //     let result: tag[] = [];
+            //     tags.forEach(async (tag) => {
+            //         console.log("tag: " + tag);
+            //         let val = await prisma.tag.findUnique({where: {id: tag.tag}});
+            //         console.log("val: " + val !== null);
+            //         if (val !== null) {
+            //             result.push(val);
+            //         }
+            //     });
+            //     if (result !== null) {
+            //         console.log("returned");
+            //         return res.status(200).json({error: Error.None, tags: result})
+            //     }
+            // }
         }
         return res.status(400).json({error: Error.InvalidRequest});
     }
