@@ -25,8 +25,7 @@ export default function Layout(props: Props) {
               <ul id= {styles.MenuItems}>
                 <li><a className={styles.a} href="/pro">Set Projects</a></li>
                 <li><a className={styles.a} href="/daily-tasks">Your Daily Tasks</a></li>
-                <li><a className={styles.a} href="/login">Login</a></li>
-                <li><a className={styles.a} href="/register">Register</a></li>
+                <li><a className={styles.a} href="/tag">Work Tags</a></li>
                 <li><a className={styles.a} href="/api/logout">Logout</a></li>
 
               </ul>
