@@ -13,8 +13,12 @@ model project {
   creation_date DateTime?      @db.Timestamp(0)
   finish_date   DateTime?      @db.DateTime(0)
   description   String?        @db.VarChar(500)
+  owner         Int?
+  user          user?          @relation(fields: [owner], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_project_user")
   task          task[]
   user_project  user_project[]
+
+  @@index([owner], map: "FK_project_user")
 }
 
 model tag {
@@ -50,30 +54,27 @@ model task_tag {
 }
 
 model user {
-  id                                      Int            @id @default(autoincrement())
-  email                                   String         @db.VarChar(50)
-  password                                String         @db.VarChar(100)
-  username                                String         @db.VarChar(50)
-  name                                    String         @db.VarChar(50)
-  is_manager                              Boolean
-  user_project_userTouser_project_manager user_project[] @relation("userTouser_project_manager")
-  user_project_userTouser_project_worker  user_project[] @relation("userTouser_project_worker")
-  user_tag                                user_tag[]
-  user_task_userTouser_task_manager       user_task[]    @relation("userTouser_task_manager")
-  user_task_userTouser_task_worker        user_task[]    @relation("userTouser_task_worker")
+  id                                     Int            @id @default(autoincrement())
+  email                                  String         @db.VarChar(50)
+  password                               String         @db.VarChar(100)
+  username                               String         @db.VarChar(50)
+  name                                   String         @db.VarChar(50)
+  is_manager                             Boolean
+  project                                project[]
+  user_project_userTouser_project_worker user_project[] @relation("userTouser_project_worker")
+  user_tag                               user_tag[]
+  user_task_userTouser_task_manager      user_task[]    @relation("userTouser_task_manager")
+  user_task_userTouser_task_worker       user_task[]    @relation("userTouser_task_worker")
 }
 
 model user_project {
-  worker                          Int
-  manager                         Int
-  project                         Int
-  id                              Int     @id @default(autoincrement())
-  project_projectTouser_project   project @relation(fields: [project], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_project_project_null_fk")
-  user_userTouser_project_manager user    @relation("userTouser_project_manager", fields: [manager], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_project_user_null_fk")
-  user_userTouser_project_worker  user    @relation("userTouser_project_worker", fields: [worker], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_project_worker_fk")
+  worker                         Int
+  project                        Int
+  id                             Int     @id @default(autoincrement())
+  project_projectTouser_project  project @relation(fields: [project], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_project_project_null_fk")
+  user_userTouser_project_worker user    @relation("userTouser_project_worker", fields: [worker], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_project_worker_fk")
 
   @@index([project], map: "user_project_project_null_fk")
-  @@index([manager], map: "user_project_user_null_fk")
   @@index([worker], map: "user_project_worker_fk")
 }
 
