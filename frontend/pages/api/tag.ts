@@ -23,7 +23,10 @@ async function tagRoute(
 ) {
   console.log(req);
 
-  const { name, id } = req.body;
+  let { name, id } = req.body;
+  if (req.method == "GET") {
+    let {name, id} = req.query;
+  }
 
   if (req.method == "POST" && name) {
     const tag = await prisma.tag.create({ data: { name: name as string } });
@@ -32,10 +35,17 @@ async function tagRoute(
     await prisma.tag.delete({ where: { id: parseInt(id) } });
     return res.status(200).json({ error: Error.None });
   }
-  else if (req.method == "GET" && !id) {
+  else if (req.method == "GET" && !id && !name) {
     const tags = await prisma.tag.findMany();
     return res.status(200).json({ error: Error.None, tags });
-  } else if (req.method == "GET" && id) {
+  }
+  else if (req.method == "GET" && !id && name) {
+    const tag = await prisma.tag.findFirst({where: {name}});
+    if (tag) {
+      return res.status(200).json({ error: Error.None, tag });
+    }
+  }
+  else if (req.method == "GET" && id) {
     const tag = await prisma.tag.findUnique({ where: { id: id } });
     if (tag) {
       return res.status(200).json({ error: Error.None, tag });
