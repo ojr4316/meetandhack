@@ -9,18 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-comprehend": "^3.213.0",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@prisma/client": "^4.6.1",
     "all": "^0.0.0",
+    "aws-sdk": "^2.1258.0",
     "axios": "^1.1.3",
     "bcrypt": "^5.1.0",
+    "chrono-node": "^2.4.2",
+    "datejs": "^1.0.0-rc3",
     "iron-session": "^6.3.1",
+    "moment": "^2.29.4",
     "next": "13.0.4",
     "next-iron-session": "^4.2.0",
+    "number-to-words": "^1.2.4",
+    "pluralize": "^8.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "words-to-numbers": "^1.5.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",

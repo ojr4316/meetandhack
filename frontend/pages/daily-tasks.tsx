@@ -41,8 +41,6 @@ export default class DailyTasks extends Component<Props, State> {
     };
   }
 
-
-
   componentDidMount() {
     // TODO: Get tasks by project ID
     // TODO: Get members by project ID
@@ -50,19 +48,17 @@ export default class DailyTasks extends Component<Props, State> {
     getTasks().then((tasks) => {
       if (tasks) {
         this.setState({
-          tasks: tasks
+          tasks: tasks,
         });
       }
-    })
-
-
+    });
   }
 
   removeTaskById(id: number) {
     this.setState({
       tasks: this.state.tasks.filter(function (task) {
-        return task.id !== id
-      })
+        return task.id !== id;
+      }),
     });
     // TODO: Make API call to actually remove it
   }
@@ -80,11 +76,10 @@ export default class DailyTasks extends Component<Props, State> {
             <div className={styles.left}>
               <div className={styles.task_lists}></div>
               <div className={styles.tasks}>
-                {tasks.map((task, index) => {
-                  return (
-                    <li key={index}>{task.name}</li>
-                  )
-                })}
+                {tasks &&
+                  tasks.map((task, index) => {
+                    return <li key={index}>{task.name}</li>;
+                  })}
               </div>
             </div>
           </div>

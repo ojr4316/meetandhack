@@ -22,7 +22,7 @@ export default function Tag() {
             <li><label htmlFor="name">Project Name:</label></li>
             <li><input type="text" onChange={(e) => setName(e.currentTarget.value)} value={name} /></li>
             <li><label htmlFor="desc">Enter Description:</label></li>
-            <li><textarea className={styles.desc} type="string" onChange={(e) => setDesc(e.currentTarget.value)} value={desc} /></li>
+            <li><textarea className={styles.desc} onChange={(e) => setDesc(e.currentTarget.value)} value={desc} /></li>
             <li><button type="submit" onClick={() => createProject(name)}>Submit</button></li>
             </ul>
         </div>
