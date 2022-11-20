@@ -11,5 +11,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const user = await prisma.user.findUnique({where: { id: 0}})
+  
+    prisma.user_task.delete({where: {id: 1}});
   res.status(200).json({ name: 'John Doe' })
 }
